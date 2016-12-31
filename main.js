@@ -9,7 +9,7 @@ peer.on('open', function(id) {
         + '?key=' + PEER_KEY
         + '&id=' + id;
 
-    fetch('/api/v1/link?url=' + encodeURIComponent(url))
+    fetch('/api/v1/link?url=' + encodeURIComponent(_url))
     .then(res => res.json())
     .then(payload => {
         if (payload.status_code === 200) {
@@ -30,7 +30,7 @@ peer.on('connection', function(conn) {
 
     });
 
-    conn.on('data', function(data) {
+    conn.on('data', function(event) {
         if (event.state === 1) {
             if (event.key === 'LEFT') {
                 player.move(-1);
