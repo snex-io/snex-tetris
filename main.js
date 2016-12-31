@@ -1,31 +1,50 @@
-const tetri = [];
+const PEER_KEY = '5m8blh25pbzc9pb9';
 
-const playerElements = document.querySelectorAll('.player');
-[...playerElements].forEach(element => {
-    const tetris = new Tetris(element);
-    tetri.push(tetris);
+const manager = new TetrisManager(document);
+
+
+const peer = new Peer({key: PEER_KEY});
+peer.on('open', function(id) {
+    let _url = 'http://snex.pomle.com/nes/'
+        + '?key=' + PEER_KEY
+        + '&id=' + id;
+
+    fetch('/api/v1/link?url=' + encodeURIComponent(url))
+    .then(res => res.json())
+    .then(payload => {
+        if (payload.status_code === 200) {
+            _url = payload.data.url;
+        }
+        const anchor = document.createElement('a');
+        anchor.href = _url;
+        anchor.textContent = _url;
+        window.url.appendChild(anchor);
+    });
 });
 
-const keyListener = (event) => {
-    [
-        [65, 68, 81, 69, 83],
-        [72, 75, 89, 73, 74],
-    ].forEach((key, index) => {
-        const player = tetri[index].player;
-        if (event.type === 'keydown') {
-            if (event.keyCode === key[0]) {
+peer.on('connection', function(conn) {
+    const tetris = manager.createPlayer();
+    const player = tetris.player;
+
+    conn.on('open', function() {
+
+    });
+
+    conn.on('data', function(data) {
+        if (event.state === 1) {
+            if (event.key === 'LEFT') {
                 player.move(-1);
-            } else if (event.keyCode === key[1]) {
+            } else if (event.key === 'RIGHT') {
                 player.move(1);
-            } else if (event.keyCode === key[2]) {
+            } else if (event.key === 'B') {
                 player.rotate(-1);
-            } else if (event.keyCode === key[3]) {
+            } else if (event.key === 'A') {
                 player.rotate(1);
             }
         }
 
-        if (event.keyCode === key[4]) {
-            if (event.type === 'keydown') {
+        if (event.key === 'DOWN') {
+            if (event.state === 1) {
                 if (player.dropInterval !== player.DROP_FAST) {
                     player.drop();
                     player.dropInterval = player.DROP_FAST;
@@ -35,7 +54,8 @@ const keyListener = (event) => {
             }
         }
     });
-};
 
-document.addEventListener('keydown', keyListener);
-document.addEventListener('keyup', keyListener);
+    conn.on('close', function() {
+        manager.removePlayer(tetris);
+    });
+});

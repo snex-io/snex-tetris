@@ -4,37 +4,59 @@
     <style>
         body {
             background: #000;
-            display: flex;
             color: #fff;
+            display: flex;
+            flex-flow: column;
             font-family: sans-serif;
-            font-size: 2em;
+            font-size: 24px;
+            justify-content: space-around;
             text-align: center;
         }
 
+        #url {
+            background: #ff5500;
+            border-radius: 1em;
+            margin: 1em;
+            padding: .5em;
+        }
+
+        #url a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .players {
+            display: flex;
+        }
         .player {
+            align-items: center;
+            display: flex;
+            flex-flow: column;
             flex: 1 1 auto;
         }
 
         canvas {
             border: solid .2em #fff;
-            height: 90vh;
         }
     </style>
 </head>
 <body>
-    <div class="player">
-        <div class="score"></div>
-        <canvas class="tetris" width="240" height="400"></canvas>
-    </div>
+    <template id="player-template">
+        <div class="player">
+            <div class="score"></div>
+            <canvas class="tetris" width="240" height="400"></canvas>
+        </div>
+    </template>
 
-    <div class="player">
-        <div class="score"></div>
-        <canvas class="tetris" width="240" height="400"></canvas>
-    </div>
+    <div id="url"></div>
+    <div class="players"></div>
 
+
+    <script src="peer.min.js"></script>
     <script src="arena.js"></script>
     <script src="player.js"></script>
     <script src="tetris.js"></script>
+    <script src="tetris-manager.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
