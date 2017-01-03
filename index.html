@@ -1,23 +1,28 @@
 <html>
 <head>
     <title>Tetris</title>
+    <link href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
     <style>
         body {
             background: #000;
             color: #fff;
             display: flex;
+            font-family: 'Jura', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
             flex-flow: column;
-            font-family: sans-serif;
             font-size: 24px;
-            justify-content: space-around;
             text-align: center;
         }
 
+        body .logo {
+            margin: .6em;
+            width: 200px;
+        }
+
         #url {
-            background: #ff5500;
+            background: #de4d5f;
             border-radius: 1em;
-            margin: 1em;
-            padding: .5em;
+            margin: .3em;
+            padding: .3em;
         }
 
         #url a {
@@ -48,7 +53,12 @@
         </div>
     </template>
 
-    <div id="url"></div>
+    <div>
+        <img src="/images/snex-logo.svg" alt="SNEX" class="logo" /><br/>
+        Join or start game by visiting below URL on your smart phone
+        <div id="url">Please wait, creating URL...</div>
+
+    </div>
     <div class="players"></div>
 
 

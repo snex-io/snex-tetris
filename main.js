@@ -18,6 +18,7 @@ peer.on('open', function(id) {
         const anchor = document.createElement('a');
         anchor.href = _url;
         anchor.textContent = _url;
+        window.url.innerHTML = '';
         window.url.appendChild(anchor);
     });
 });
