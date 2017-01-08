@@ -5,19 +5,12 @@ const manager = new TetrisManager(document);
 
 const peer = new Peer({key: PEER_KEY});
 peer.on('open', function(id) {
-    let _url = 'http://snex.pomle.com/nes/'
-        + '?key=' + PEER_KEY
-        + '&id=' + id;
 
-    fetch('/api/v1/link?url=' + encodeURIComponent(_url))
-    .then(res => res.json())
-    .then(payload => {
-        if (payload.status_code === 200) {
-            _url = payload.data.url;
-        }
+    snex.createSession(PEER_KEY, id, 'nes')
+    .then(session => {
         const anchor = document.createElement('a');
-        anchor.href = _url;
-        anchor.textContent = _url;
+        anchor.href = session.url;
+        anchor.textContent = session.url;
         window.url.innerHTML = '';
         window.url.appendChild(anchor);
     });
