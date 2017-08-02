@@ -9,22 +9,23 @@
             display: flex;
             font-family: 'Jura', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
             flex-flow: column;
-            font-size: 24px;
+            font-size: 14px;
             justify-content: space-between;
             text-align: center;
-        }
-
-        body .logo {
-            margin: .6em;
-            height: 56px;
-            width: 200px;
         }
 
         #url {
             background: #de4d5f;
             border-radius: 1em;
-            margin: .3em;
+            font-weight: bold;
+            font-size: 20px;
+            margin: 1em auto;
             padding: .3em;
+            width: 20em;
+        }
+
+        .score {
+            font-size: 32px;
         }
 
         a {
@@ -34,12 +35,12 @@
 
         .players {
             display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
         }
+
         .player {
-            align-items: center;
-            display: flex;
-            flex-flow: column;
-            flex: 1 1 auto;
+            margin: 1em;
         }
 
         canvas {
@@ -56,15 +57,23 @@
     </template>
 
     <div>
-        <a href="/" target="snex-website"><img src="//snex.io/images/snex-logo.svg" alt="SNEX" class="logo" width=/></a><br/>
-        Join or start game by visiting below URL on your smart phone
-        <div id="url">Please wait, creating URL...</div>
+        <h1>
+            Tetris powered by <a href="http://snex.io" target="snex-website">
+                <img src="//snex.io/images/snex-logo.svg" alt="SNEX" class="logo" width="120" height="30" />
+            </a>
+        </h1>
 
+        <h2>
+            Join or start game by visiting below URL on your smart phone
+        </h2>
+
+        <div id="url">Please wait, creating URL...</div>
     </div>
+
     <div class="players"></div>
 
     <div>
-        <a href="https://github.com/snex-io/snex-tetris">Source Code</a>
+        [<a href="https://github.com/snex-io/snex-tetris">Source Code</a>]
     </div>
 
     <script src="https://cdn.snex.io/snex.0.1.4.min.js"></script>
