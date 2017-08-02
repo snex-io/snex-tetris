@@ -40,6 +40,7 @@ snex.createSession()
 })
 .then(({url}) => {
     const anchor = document.createElement('a');
+    anchor.target = 'snex-tetris-controller';
     anchor.href = url;
     anchor.textContent = url;
     window.url.innerHTML = '';
