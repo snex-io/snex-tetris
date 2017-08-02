@@ -1,55 +1,51 @@
-const PEER_KEY = '5m8blh25pbzc9pb9';
-
 const manager = new TetrisManager(document);
 
+snex.createSession()
+.then(session => {
+    session.on('connection', function(conn) {
+        const tetris = manager.createPlayer();
+        const player = tetris.player;
 
-const peer = new Peer({key: PEER_KEY});
-peer.on('open', function(id) {
+        conn.on('open', function() {
 
-    snex.createSession(PEER_KEY, id, 'nes')
-    .then(session => {
-        const anchor = document.createElement('a');
-        anchor.href = session.url;
-        anchor.textContent = session.url;
-        window.url.innerHTML = '';
-        window.url.appendChild(anchor);
-    });
-});
+        });
 
-peer.on('connection', function(conn) {
-    const tetris = manager.createPlayer();
-    const player = tetris.player;
-
-    conn.on('open', function() {
-
-    });
-
-    conn.on('data', function(event) {
-        if (event.state === 1) {
-            if (event.key === 'LEFT') {
-                player.move(-1);
-            } else if (event.key === 'RIGHT') {
-                player.move(1);
-            } else if (event.key === 'B') {
-                player.rotate(-1);
-            } else if (event.key === 'A') {
-                player.rotate(1);
-            }
-        }
-
-        if (event.key === 'DOWN') {
+        conn.on('data', function(event) {
             if (event.state === 1) {
-                if (player.dropInterval !== player.DROP_FAST) {
-                    player.drop();
-                    player.dropInterval = player.DROP_FAST;
+                if (event.key === 'LEFT') {
+                    player.move(-1);
+                } else if (event.key === 'RIGHT') {
+                    player.move(1);
+                } else if (event.key === 'B') {
+                    player.rotate(-1);
+                } else if (event.key === 'A') {
+                    player.rotate(1);
                 }
-            } else {
-                player.dropInterval = player.DROP_SLOW;
             }
-        }
+
+            if (event.key === 'DOWN') {
+                if (event.state === 1) {
+                    if (player.dropInterval !== player.DROP_FAST) {
+                        player.drop();
+                        player.dropInterval = player.DROP_FAST;
+                    }
+                } else {
+                    player.dropInterval = player.DROP_SLOW;
+                }
+            }
+        });
+
+        conn.on('close', function() {
+            manager.removePlayer(tetris);
+        });
     });
 
-    conn.on('close', function() {
-        manager.removePlayer(tetris);
-    });
+    return session.createURL('nes');
+})
+.then(({url}) => {
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.textContent = url;
+    window.url.innerHTML = '';
+    window.url.appendChild(anchor);
 });
