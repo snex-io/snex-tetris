@@ -6,10 +6,6 @@ snex.createSession()
         const tetris = manager.createPlayer();
         const player = tetris.player;
 
-        conn.on('open', function() {
-
-        });
-
         conn.on('data', function(event) {
             if (event.state === 1) {
                 if (event.key === 'LEFT') {
